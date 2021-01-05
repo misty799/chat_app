@@ -1,9 +1,7 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_chat_app/bloc/authevent.dart';
-import 'package:flutter_chat_app/bloc/authstate.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/authevent.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/authstate.dart';
 import 'package:flutter_chat_app/bloc/userRepository.dart';
-
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {

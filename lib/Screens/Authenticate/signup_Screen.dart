@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:flutter_chat_app/Screens/Authenticate/signup_form.dart';
-import 'package:flutter_chat_app/bloc/registerbloc.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/registerbloc.dart';
 import 'package:flutter_chat_app/bloc/userRepository.dart';
 
 class RegisterScreen extends StatelessWidget {

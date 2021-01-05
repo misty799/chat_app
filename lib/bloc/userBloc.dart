@@ -1,8 +1,6 @@
-
-
 import 'dart:async';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart' ;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_chat_app/Models/User.dart';
 import 'package:flutter_chat_app/bloc/userEvent.dart';
@@ -10,9 +8,9 @@ import 'package:flutter_chat_app/bloc/userEvent.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 class UserBloc extends Bloc {
- String downloadUrl;
+  String downloadUrl;
   String id;
- List<User> _allUsers;
+  List<User> _allUsers;
   List<User> get allUsers => _allUsers;
   StreamController<UserEvent> _userEventController =
       StreamController<UserEvent>.broadcast();
@@ -34,12 +32,11 @@ class UserBloc extends Bloc {
 
   Stream<User> get currentUserDataStream => _currentUserDataController.stream;
 
-  
   UserBloc() {
     _userEventStream.listen(mapEventToState);
   }
-    Future<void> mapEventToState(UserEvent event) async {
-  if (event is AddUser) {
+  Future<void> mapEventToState(UserEvent event) async {
+    if (event is AddUser) {
       StorageReference storageReference = FirebaseStorage.instance.ref();
       StorageReference ref = storageReference.child("users/");
       StorageUploadTask storageUploadTask =
@@ -79,8 +76,7 @@ class UserBloc extends Bloc {
           .collection("users")
           .doc(event.user.userId)
           .set(event.user.toJson(event.user.userId), SetOptions(merge: true));*/
-    } 
-     else if (event is FetchAllUser) {
+    } else if (event is FetchAllUser) {
       FirebaseFirestore.instance
           .collection("users")
           .snapshots()
@@ -92,8 +88,7 @@ class UserBloc extends Bloc {
         print("All users:${_allUsers.length}");
         userDataSink.add(_allUsers);
       });
-     }
-     else if (event is FetchUser) {
+    } else if (event is FetchUser) {
       final snapShot = await FirebaseFirestore.instance
           .collection("users")
           .doc(event.userID)
@@ -108,9 +103,7 @@ class UserBloc extends Bloc {
         currentUserDataSink.add(User.fromMap(snapShot.data()));
       }
     }
-
-
-    }
+  }
 
   @override
   void dispose() {
@@ -119,4 +112,3 @@ class UserBloc extends Bloc {
     _currentUserDataController.close();
   }
 }
-

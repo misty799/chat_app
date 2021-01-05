@@ -1,8 +1,8 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_app/Screens/utils/validators.dart';
-import 'package:flutter_chat_app/bloc/registerevent.dart';
-import 'package:flutter_chat_app/bloc/registerstate.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/registerevent.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/registerstate.dart';
 import 'package:flutter_chat_app/bloc/userRepository.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {

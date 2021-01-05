@@ -4,35 +4,33 @@ import 'package:flutter_chat_app/bloc/ChatBloc/chatEvent.dart';
 import 'package:flutter_chat_app/bloc/ChatBloc/chatbloc.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-class ChatRoom extends StatefulWidget {
-  final String user;
-  final String receiverName;
-  ChatRoom({this.receiverName,this.user});
+class GroupChatRoom extends StatefulWidget {
+  final String docId;
+  GroupChatRoom({this.docId});
   @override
-  _ChatRoomState createState() => _ChatRoomState();
+  _GroupChatRoomState createState() => _GroupChatRoomState();
 }
 
-class _ChatRoomState extends State<ChatRoom> {
-ChatBloc _chatBloc;
+class _GroupChatRoomState extends State<GroupChatRoom> {
+  ChatBloc _chatBloc;
  TextEditingController messageEditingController = new TextEditingController();
 
  void didChangeDependencies() {
     _chatBloc = BlocProvider.of<ChatBloc>(context);
-    String usersName=widget.user+ "_"+widget.receiverName;
-    _chatBloc.chatEventSink.add(FetchChats(userID: auth.FirebaseAuth.instance.currentUser.uid,usersName:usersName ));
+    _chatBloc.chatEventSink.add(FetchGroupChats(docId: widget.docId ));
     super.didChangeDependencies();
   }
-    @override
-  Widget build(BuildContext context) {
+  @override
+
+ Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(title: Text(widget.receiverName),),
+      appBar:AppBar(title: Text("Hello"),),
       body: Container(
         child: Stack(
           children: [
              StreamBuilder<List<Chat>>(
-        stream: _chatBloc.chatDataStream,
+       stream: _chatBloc.chatDataStream,
         initialData: _chatBloc.allChats,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -79,13 +77,13 @@ ChatBloc _chatBloc;
                          DateTime date = DateTime.now();
                         String formattedDate =
                             DateFormat('HH:mm \n EEE d MMM').format(date);
-                            String usersName=widget.user +"_"+ widget.receiverName;
 
 
-                        Chat chat=Chat(message:messageEditingController.text,date:formattedDate
-                          ,sendBy:widget.user );
-                        _chatBloc.chatEventSink.add(AddChat(chat:chat,userId: auth.FirebaseAuth.instance.currentUser.uid,
-                        usersName:usersName));
+                     Chat chat=Chat(message:messageEditingController.text,date:formattedDate  ,sendBy:"" ,
+                     
+                     );
+                        _chatBloc.chatEventSink.add(AddGroupChats(chat:chat,
+                        uid:widget.docId ));
                         messageEditingController.clear();
 
                        

@@ -1,15 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:flutter_chat_app/Models/User.dart';
-import 'package:flutter_chat_app/bloc/authbloc.dart';
-import 'package:flutter_chat_app/bloc/authevent.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/authbloc.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/authevent.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
-import 'package:flutter_chat_app/bloc/registerbloc.dart';
-import 'package:flutter_chat_app/bloc/registerevent.dart';
-import 'package:flutter_chat_app/bloc/registerstate.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/registerbloc.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/registerevent.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/registerstate.dart';
 import 'package:flutter_chat_app/bloc/userBloc.dart';
-import 'package:flutter_chat_app/bloc/userEvent.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -18,8 +15,7 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<RegisterForm> {
-  
-   UserBloc _userBloc;
+  UserBloc _userBloc;
   String downloadUrl;
 
   @override
@@ -27,11 +23,9 @@ class _LoginFormState extends State<RegisterForm> {
     _userBloc = BlocProvider.of<UserBloc>(context);
     super.didChangeDependencies();
   }
- 
-
 
   final TextEditingController _emailController = TextEditingController();
-   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   bool get isPopulated =>
@@ -105,18 +99,17 @@ class _LoginFormState extends State<RegisterForm> {
             child: Form(
               child: Column(
                 children: <Widget>[
-                   TextFormField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: "Name",
-                    ),
-                    keyboardType: TextInputType.name,
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (value)=>value.isEmpty?"Name is required":null
-                  
-                  ),
+                  TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.email),
+                        labelText: "Name",
+                      ),
+                      keyboardType: TextInputType.name,
+                      autovalidate: true,
+                      autocorrect: false,
+                      validator: (value) =>
+                          value.isEmpty ? "Name is required" : null),
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -147,11 +140,9 @@ class _LoginFormState extends State<RegisterForm> {
                     height: 30,
                   ),
                   RaisedButton(
-
                     onPressed: () {
                       if (isButtonEnabled(state)) {
                         _onFormSubmitted();
-                       
                       }
                     },
                     child: Text(
@@ -160,7 +151,6 @@ class _LoginFormState extends State<RegisterForm> {
                         color: Colors.white,
                       ),
                     ),
-                   
                   ),
                   SizedBox(
                     height: 10,
@@ -182,12 +172,9 @@ class _LoginFormState extends State<RegisterForm> {
     _registerBloc
         .add(RegisterPasswordChanged(password: _passwordController.text));
   }
-  
 
   void _onFormSubmitted() {
-_registerBloc.add(RegisterSubmitted(
+    _registerBloc.add(RegisterSubmitted(
         email: _emailController.text, password: _passwordController.text));
-   
-
   }
 }

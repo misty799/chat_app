@@ -1,9 +1,7 @@
-
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_app/Screens/utils/validators.dart';
-import 'package:flutter_chat_app/bloc/loginevent.dart';
-import 'package:flutter_chat_app/bloc/loginstate.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/loginevent.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/loginstate.dart';
 import 'package:flutter_chat_app/bloc/userRepository.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {

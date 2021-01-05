@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/Models/User.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_chat_app/Screens/home.dart';
 import 'package:flutter_chat_app/bloc/userBloc.dart';
 import 'package:flutter_chat_app/bloc/userEvent.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-
 
 class RouteScreen extends StatefulWidget {
   final auth.User user;
@@ -41,10 +39,11 @@ class _RouteScreenState extends State<RouteScreen> {
               if (userData.userId == "None") {
                 return ProfileScreen(
                   user: widget.user,
+                  nuser: userData,
                 );
               }
               return HomeScreen(
-                user:userData ,
+                user: userData,
               );
             } else {
               return Scaffold(

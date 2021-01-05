@@ -13,7 +13,8 @@ import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   final auth.User user;
-  ProfileScreen({this.user});
+  final User nuser;
+  ProfileScreen({this.user, this.nuser});
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -135,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
-                      /*  if (_image == null) {
+                        /*  if (_image == null) {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
@@ -168,7 +169,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         print(_image);
                         print(_childName);
 
-                        User newUser = User(name: _childName, email: _email,userId: widget.user.uid
+                        User newUser = User(
+                            name: _childName,
+                            email: _email,
+                            userId: widget.user.uid
                             // sketches: {}
                             );
                         _userBloc.userEventSink
@@ -176,7 +180,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         //Navigator.pop(context);
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return HomeScreen();
+                            return HomeScreen(
+                              user: widget.nuser,
+                            );
                           },
                         ));
                       },

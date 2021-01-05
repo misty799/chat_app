@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:flutter_chat_app/Screens/Authenticate/login_form.dart';
-import 'package:flutter_chat_app/bloc/loginbloc.dart';
+import 'package:flutter_chat_app/bloc/AuthenticationBloc/loginbloc.dart';
 import 'package:flutter_chat_app/bloc/userRepository.dart';
 
 class LoginScreen extends StatelessWidget {

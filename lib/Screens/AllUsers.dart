@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/Models/User.dart';
+import 'package:flutter_chat_app/Models/chat.dart';
+import 'package:flutter_chat_app/Screens/Groups/AddGroup.dart';
 import 'package:flutter_chat_app/Screens/chatRoom.dart';
+import 'package:flutter_chat_app/bloc/ChatBloc/chatEvent.dart';
+import 'package:flutter_chat_app/bloc/ChatBloc/chatbloc.dart';
 import 'package:flutter_chat_app/bloc/userBloc.dart';
 import 'package:flutter_chat_app/bloc/userEvent.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:search_page/search_page.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AllUsers extends StatefulWidget {
-  final String user;
+  final User user;
   AllUsers({this.user});
   @override
   _AllUsersState createState() => _AllUsersState();
@@ -15,9 +20,11 @@ class AllUsers extends StatefulWidget {
 
 class _AllUsersState extends State<AllUsers> {
   UserBloc _userBloc;
+  ChatBloc _chatBloc;
   @override
   void didChangeDependencies() {
     _userBloc = BlocProvider.of<UserBloc>(context);
+    _chatBloc = BlocProvider.of<ChatBloc>(context);
     _userBloc.userEventSink.add(FetchAllUser());
     super.didChangeDependencies();
   }
@@ -36,7 +43,20 @@ class _AllUsersState extends State<AllUsers> {
                   fontFamily: 'Montserrat',
                   fontSize: 18.0,
                   color: Colors.white)),
-          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.group_add),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddGroup(
+                              user: widget.user,
+                            )));
+              },
+            )
+          ],
+          // centerTitle: true,
         ),
         body: Stack(children: [
           Container(
@@ -100,19 +120,33 @@ class _AllUsersState extends State<AllUsers> {
                                       trailing: IconButton(
                                           icon: Icon(Icons.send),
                                           onPressed: () {
+                                            User user = User(
+                                                name: snapshot.data[i].name,
+                                                email: snapshot.data[i].email,
+                                                photopath:
+                                                    snapshot.data[i].photopath);
 
-                                             Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>ChatRoom(user: widget.user,
-                                            receiverName: snapshot.data[i].name,
-                                              )));
+                                            _chatBloc.chatEventSink.add(
+                                                AddChatUsers(
+                                                    user: user,
+                                                    userId: auth
+                                                        .FirebaseAuth
+                                                        .instance
+                                                        .currentUser
+                                                        .uid,
+                                                    uid: snapshot
+                                                        .data[i].userId));
 
-
-
-
-
-
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ChatRoom(
+                                                          user:
+                                                              widget.user.name,
+                                                          receiverName: snapshot
+                                                              .data[i].name,
+                                                        )));
                                           }),
                                       leading: CircleAvatar(
                                           backgroundImage: NetworkImage(
